@@ -5,7 +5,7 @@
 * Srikanth Pagadala, USA
 * Geoff Breemer, Australia
 * Aditya Somayaji, USA
-* Tinh Nguyen, USA
+* Tinh Nguyen, Viet Nam
 * Xu Honghu, China, Team Lead
 
 
