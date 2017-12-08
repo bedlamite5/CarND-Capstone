@@ -27,24 +27,7 @@ PUBLISHING_RATE = 1 # Publishing frequency (Hz)
 
 class WaypointUpdater(object):
     def __init__(self):
-        rospy.init_node('waypoint_updater')
-        
-        self.current_pose   = None  # current coords of vehicle        
-        self.base_waypoints = None  # list of base waypoints        
-        self.queue_wp       = None  # waypoints to publish        
-        self.next_waypoint  = None  # index of next waypoint        
-        self.stop_waypoint  = None  # stop line index for the nearest light        
-        self.next_basewp    = None  # the next waypoint index to retrieve from base        
-        self.destination    = None  # the final waypoint in the list        
-        self.num_base_wp    = 0     # the number of points in the base list        
-        self.msg_seq_num    = 0     # sequence number of published message        
-        self.velocity_drop  = 60.   # distance to begin reducing velocity        
-        self.VELOCITY_MAX   = 5.554 # mps Carla max of 20 km/h (updated by waypoints_cb)        
-        self.LOOKAHEAD_WPS  = 25    # Number of waypoints we will publish.        
-        self.prev_state     = None  # previous traffic light state        
-        self.halt           = False # shut down        
-        self.replan         = True  # when a light changes, update velocity        
-        self.loop           = True  # loop around the test site (updated by waypoints_cb)
+        rospy.init_node('waypoint_updater'
 
         rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
         rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
@@ -52,14 +35,23 @@ class WaypointUpdater(object):
         self.traffic_sub = rospy.Subscriber('/traffic_waypoint', Int32, self.traffic_cb)        
         self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
 
-        
-        # TODO: Add a subscriber for /traffic_waypoint and /obstacle_waypoint below
-
-
-        self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
-
-        # TODO: Add other member variables you need below
-
+        self.current_pose   = None  # current coords of vehicle                
+        self.base_waypoints = None  # list of base waypoints               
+        self.queue_wp       = None  # waypoints to publish                
+        self.next_waypoint  = None  # index of next waypoint                
+        self.stop_waypoint  = None  # stop line index for the nearest light                
+        self.next_basewp    = None  # the next waypoint index to retrieve from base                
+        self.destination    = None  # the final waypoint in the list                
+        self.num_base_wp    = 0     # the number of points in the base list                
+        self.msg_seq_num    = 0     # sequence number of published message                
+        self.velocity_drop  = 60.   # distance to begin reducing velocity                
+        self.VELOCITY_MAX   = 5.554 # mps Carla max of 20 km/h (updated by waypoints_cb)                
+        self.LOOKAHEAD_WPS  = 25    # Number of waypoints we will publish.                
+        self.prev_state     = None  # previous traffic light state                
+        self.halt           = False # shut down                
+        self.replan         = True  # when a light changes, update velocity                
+        self.loop           = True  # loop around the test site (updated by waypoints_cb)
+      
         rospy.spin()
 
     def pose_cb(self, msg):
