@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
-import math
 import rospy
-from geometry_msgs.msg import PoseStamped, Quaternion
-from styx_msgs.msg import Lane, Waypoint
+from geometry_msgs.msg import PoseStamped, TwistStamped
+from styx_msgs.msg import Lane, Waypoint, TrafficLight
 from std_msgs.msg import Int32
+
+import math, sys
+import numpy as np
 
 
 '''
@@ -22,18 +24,25 @@ as well as to verify your TL classifier.
 TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
-LOOKAHEAD_WPS = 20 # Number of waypoints we will publish. You can change this number
-PUBLISHING_RATE = 1 # Publishing frequency (Hz)
+LOOKAHEAD_WPS = 100 # Number of waypoints we will publish. You can change this number
+PUBLISHING_RATE = 4 # Publishing frequency (Hz)
+MAX_SPEED_LIMIT = 10 # max speed limit
+BRAKE_WPS = 50. # number of waypoints before traffic light to brake
 
 class WaypointUpdater(object):
     def __init__(self):
-        rospy.init_node('waypoint_updater'
-
-        rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
-        rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
+        rospy.init_node('waypoint_updater', log_level=rospy.DEBUG)
         
-        self.traffic_sub = rospy.Subscriber('/traffic_waypoint', Int32, self.traffic_cb)        
+        # Subscriber for /base_waypoint and /current_post
+        rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb,queue_size=1)
+        rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb,queue_size=1)
+        
+        # Subscriber for /traffic_waypoint
+        # self.traffic_sub = rospy.Subscriber('/traffic_waypoint', Int32, self.traffic_cb,queue_size=1)   
+        rospy.Subscriber('/traffic_waypoint', Int32, self.traffic_cb,queue_size=1) 
+                        
         self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
+        
 
         self.current_pose   = None  # current coords of vehicle                
         self.base_waypoints = None  # list of base waypoints               
