@@ -61,7 +61,8 @@ source devel/setup.sh
 roslaunch launch/styx.launch
 ```
 4. Run the simulator
-``` cd linux_sys_int
+``` bash
+cd linux_sys_int
 chmod a+x sys_int.x86.64
 ./sys_int.x86_64
 ```
