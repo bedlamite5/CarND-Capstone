@@ -2,9 +2,9 @@
 
 
 ### Team [KITT](https://en.wikipedia.org/wiki/KITT)
-* Srikanth Pagadala, USA
-* Geoff Breemer, Australia
-* Aditya Somayaji, USA
+* Srikanth Pagadala, USA 
+* Geoff Breemer, Australia 
+* Aditya Somayaji, USA 
 * Tinh Nguyen, Viet Nam
 * Xu Honghu, China, Team Lead
 
@@ -61,6 +61,10 @@ source devel/setup.sh
 roslaunch launch/styx.launch
 ```
 4. Run the simulator
+``` cd linux_sys_int
+chmod a+x sys_int.x86.64
+./sys_int.x86_64
+```
 
 ### Real world testing
 1. Download [training bag](https://drive.google.com/file/d/0B2_h37bMVw3iYkdJTlRSUlJIamM/view?usp=sharing) that was recorded on the Udacity self-driving car (a bag demonstraing the correct predictions in autonomous mode can be found [here](https://drive.google.com/open?id=0B2_h37bMVw3iT0ZEdlF4N01QbHc))
